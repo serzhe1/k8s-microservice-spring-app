@@ -1,18 +1,36 @@
-apiVersion: extensions/v1beta1
+apiVersion: v1
+kind: Service
+metadata:
+  name: news-app-service
+spec:
+  selector:
+    app.kubernetes.io/name: news-app
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: news-app
-  namespace: default
+  name: news-app-deployment
+  labels:
+    app: news-app
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: news-app
   template:
     metadata:
-      name: news-app
       labels:
         app: news-app
     spec:
       containers:
         - name: news-app
+          image: drennout/news-app:1.0.0
+          ports:
+            - containerPort: 8080
           env:
             - name: DATASOURCE_USERNAME
               valueFrom:
@@ -25,5 +43,4 @@ spec:
                   name: postgres-config
                   key: postgres_password
             - name: DATASOURCE_URL
-              value: jdbc:postgresql://postgres:5432/news-db
-          image: drennout/news-app:1.0.0
+              value: jdbc:postgresql://db:5432/news-db

@@ -1,4 +1,13 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: default
+data:
+  postgres_user: psql
+  postgres_password: pSQL123
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: db
@@ -29,13 +38,19 @@ spec:
           name: db
           env:
             - name: POSTGRES_USER
-              value: admin
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres_user
 
             - name: POSTGRES_PASSWORD
-              value: admin
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres_password
 
             - name: POSTGRES_DB
-              value: dbname
+              value: news-db
 
           ports:
             - containerPort: 5432
