@@ -10,7 +10,6 @@
     </parent>
     <groupId>ru.serzhe1</groupId>
     <artifactId>admin-app</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>admin-app</name>
     <description>admin-app</description>
     <properties>
@@ -44,6 +43,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin-service
+spec:
+  selector:
+    app.kubernetes.io/name: admin-app
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-app-deployment
+  labels:
+    app: admin-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admin-app
+  template:
+    metadata:
+      labels:
+        app: admin-app
+    spec:
+      containers:
+        - name: admin-app
+          image: drennout/admin-app:1.0.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: spring.boot.admin.context-path
+              value: /admin
