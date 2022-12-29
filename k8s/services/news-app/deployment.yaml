@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: news-app
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: news-app
+      labels:
+        app: news-app
+    spec:
+      containers:
+        - name: news-app
+          env:
+            - name: DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres_user
+            - name: DATASOURCE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: postgres_password
+            - name: DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/news-db
+          image: drennout/news-app:1.0.0

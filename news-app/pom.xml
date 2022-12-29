@@ -10,7 +10,6 @@
 	</parent>
 	<groupId>ru.serzhe1</groupId>
 	<artifactId>news-app</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>news-app</name>
 	<description>news-app</description>
 	<properties>
@@ -72,6 +71,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
